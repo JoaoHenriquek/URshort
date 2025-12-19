@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 @Data
-@Document(collation = "URL's")
+@Document(collection = "urls")
 public class Url {
 
     @Id
@@ -22,12 +22,8 @@ public class Url {
 
     private boolean active = true;
 
-    private Instant createdDate;
+    private Instant createdDate = Instant.now();
 
     private Instant expiryDate;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdDate = Instant.now();
-    }
 }

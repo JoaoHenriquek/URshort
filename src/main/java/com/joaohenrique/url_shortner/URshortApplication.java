@@ -10,4 +10,7 @@ public class URshortApplication {
 		SpringApplication.run(URshortApplication.class, args);
 	}
 
+    //TODO: Criar RN para data de expiração da url
+    //TODO: Criar endpoint para redirecionamento da url criada
+
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @Repository
-public interface UrlRepository extends MongoRepository<Url, Long> {
+public interface UrlRepository extends MongoRepository<Url, String> {
 
     Optional<Url> findByCode(String code);
 }

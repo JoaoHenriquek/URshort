@@ -44,7 +44,9 @@ public class CreateUrlService {
 
         urlRepository.save(newUrl);
 
-        return ResponseEntity.ok().build();
+        String shortUrl = "http://localhost:8080/" + newUrl.getCode();
+
+        return ResponseEntity.ok(new UrlCreateResponse("URL Criada: ",shortUrl ));
 
     }
 
