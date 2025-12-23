@@ -10,6 +10,7 @@ import com.joaohenrique.url_shortner.services.CreateUrlService;
 import com.joaohenrique.url_shortner.services.LoginService;
 import com.joaohenrique.url_shortner.services.RegisterService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -23,6 +25,7 @@ public class CreateUrlService {
 
     public ResponseEntity<UrlCreateResponse> execute(UrlCreateRequest urlCreateRequest) {
         String code;
+        Instant date;
         if (urlCreateRequest.code().isEmpty()) {
             code = generateCode();
         }else{
@@ -33,6 +36,12 @@ public class CreateUrlService {
             throw new IllegalArgumentException("code already exists");
         }
 
+        if(urlCreateRequest.expiryDate() == null){
+            date = Instant.now().plus(7, ChronoUnit.DAYS);
+        }else {
+            date = urlCreateRequest.expiryDate();
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String userID = authentication.getName();
@@ -41,6 +50,7 @@ public class CreateUrlService {
         newUrl.setCode(code);
         newUrl.setOriginalURL(urlCreateRequest.url());
         newUrl.setUserID(userID);
+        newUrl.setExpiryDate(date);
 
         urlRepository.save(newUrl);
 

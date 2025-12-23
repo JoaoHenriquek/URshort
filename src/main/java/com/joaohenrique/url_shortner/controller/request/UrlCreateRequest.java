@@ -1,4 +1,6 @@
 package com.joaohenrique.url_shortner.controller.request;
 
-public record UrlCreateRequest(String url, String code) {
+import java.time.Instant;
+
+public record UrlCreateRequest(String url, String code, Instant expiryDate) {
 }
