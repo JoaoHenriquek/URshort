@@ -46,7 +46,9 @@ public class CreateUrlService {
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+
+        String userID = authentication.getName();
+        User user = userRepository.findById(userID).orElse(null);
         user.setUrls(user.getUrls()+1);
         userRepository.save(user);
 
@@ -54,7 +56,7 @@ public class CreateUrlService {
         Url newUrl = new Url();
         newUrl.setCode(code);
         newUrl.setOriginalURL(urlCreateRequest.url());
-        newUrl.setUserID(String.valueOf(user.getId()));
+        newUrl.setUserID(userID);
         newUrl.setExpiryDate(date);
 
         urlRepository.save(newUrl);

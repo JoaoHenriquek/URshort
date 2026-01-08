@@ -2,9 +2,11 @@ package com.joaohenrique.url_shortner.services;
 
 import com.joaohenrique.url_shortner.entities.Url;
 import com.joaohenrique.url_shortner.repositories.UrlRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.time.Instant;
 
 @Service
@@ -24,7 +26,10 @@ public class RedirectService {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(URI.create(url.getOriginalURL()))
+                .build();
     }
 
 }
