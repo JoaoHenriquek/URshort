@@ -5,6 +5,7 @@ import com.joaohenrique.url_shortner.controller.response.UrlCreateResponse;
 import com.joaohenrique.url_shortner.entities.Url;
 import com.joaohenrique.url_shortner.entities.User;
 import com.joaohenrique.url_shortner.repositories.UrlRepository;
+import com.joaohenrique.url_shortner.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +18,11 @@ import java.util.UUID;
 @Service
 public class CreateUrlService {
     private final UrlRepository urlRepository;
+    private final UserRepository userRepository;
 
-    public CreateUrlService(UrlRepository urlRepository) {
+    public CreateUrlService(UrlRepository urlRepository, UserRepository userRepository) {
         this.urlRepository = urlRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -43,13 +46,15 @@ public class CreateUrlService {
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        user.setUrls(user.getUrls()+1);
+        userRepository.save(user);
 
-        String userID = authentication.getName();
 
         Url newUrl = new Url();
         newUrl.setCode(code);
         newUrl.setOriginalURL(urlCreateRequest.url());
-        newUrl.setUserID(userID);
+        newUrl.setUserID(String.valueOf(user.getId()));
         newUrl.setExpiryDate(date);
 
         urlRepository.save(newUrl);

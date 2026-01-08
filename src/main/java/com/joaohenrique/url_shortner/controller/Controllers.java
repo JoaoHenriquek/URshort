@@ -8,25 +8,26 @@ import com.joaohenrique.url_shortner.controller.response.RegisterResponse;
 import com.joaohenrique.url_shortner.controller.response.UrlCreateResponse;
 import com.joaohenrique.url_shortner.services.CreateUrlService;
 import com.joaohenrique.url_shortner.services.LoginService;
+import com.joaohenrique.url_shortner.services.RedirectService;
 import com.joaohenrique.url_shortner.services.RegisterService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Controllers {
 
-    private RegisterService registerService;
-    private LoginService loginService;
-    private CreateUrlService createUrlService;
+    private final RegisterService registerService;
+    private final LoginService loginService;
+    private final CreateUrlService createUrlService;
+    private final RedirectService redirectService;
 
-    public Controllers(RegisterService registerService,  LoginService loginService,
-                       CreateUrlService createUrlService) {
+
+    public Controllers(RegisterService registerService, LoginService loginService,
+                       CreateUrlService createUrlService, RedirectService redirectService) {
         this.registerService = registerService;
         this.loginService = loginService;
         this.createUrlService = createUrlService;
+        this.redirectService = redirectService;
     }
 
     @PostMapping("/register")
@@ -42,5 +43,10 @@ public class Controllers {
     @PostMapping("/create-url")
     public ResponseEntity<UrlCreateResponse> createUrl(@RequestBody UrlCreateRequest urlCreateRequest) {
         return createUrlService.execute(urlCreateRequest);
+    }
+
+    @GetMapping("/{code}")
+    public ResponseEntity<Void> redirect(@PathVariable String code) {
+        return redirectService.redirectTo(code);
     }
 }

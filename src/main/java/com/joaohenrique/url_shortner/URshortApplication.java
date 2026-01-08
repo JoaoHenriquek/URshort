@@ -10,8 +10,5 @@ public class URshortApplication {
 		SpringApplication.run(URshortApplication.class, args);
 	}
 
-    //Criar RN para data de expiração da url | RN: default 7 dias, front precisa enviar em ISO 8601
-    //Criar endpoint para redirecionamento da url criada
-    //TODO: Incrementar qtd de urls no usuario
-
+    //RN data expiração URL: default 7 dias | NOTE: front precisa enviar data em ISO 8601
 }
